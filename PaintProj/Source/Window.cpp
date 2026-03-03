@@ -65,8 +65,6 @@ bool Window::buildWindow() {
     glfwSetCursorPosCallback(window, Input::mouseCallback);
     glfwSetKeyCallback(window, Input::keyCallback);
 
-    drawTriangle();
-
     return true;
 }
 
