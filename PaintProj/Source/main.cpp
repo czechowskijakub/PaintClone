@@ -1,4 +1,5 @@
 #include <glfw3.h>
+#include <print>
 #include "Window.hpp"
 
 int main() {

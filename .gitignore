@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 *.env
+PaintProj/PaintProj.vcxproj*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
