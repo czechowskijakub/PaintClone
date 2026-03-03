@@ -1,11 +1,14 @@
 #include <glad.h>
 #include <print>
-#include "Shader.hpp"
+#include <vector>
 #include "Window.hpp"
+#include "Shader.hpp"
+#include "Paint.hpp"
 #include "Input.hpp"
+#include "Brush.hpp"
 
 Window::Window(int width, int height, std::string title) :
-    width(width), height(height), title(title), window(nullptr), VAO(NULL), VBO(NULL), shaderProgram(NULL), currentTool(new DrawTool(5.0)) {
+    width(width), height(height), title(title), window(nullptr), VAO(NULL), VBO(NULL), shaderProgram(NULL) {
     std::println("Window constructed!");
 }
 
@@ -16,11 +19,13 @@ Window::~Window() {
 
     if (window) glfwDestroyWindow(window);
 
-    delete currentTool;
-
     glfwTerminate();
 
     std::println("Window destructed!");
+}
+
+GLFWwindow* Window::getWindow() const {
+    return window;
 }
 
 bool Window::checkGLFWInit() {
@@ -57,15 +62,15 @@ bool Window::buildWindow() {
     }
     glfwMakeContextCurrent(window);
     if (!checkGLADInit()) { return false; }
-    glfwSetWindowUserPointer(window, this->currentTool);
     glfwSetCursorPosCallback(window, Input::mouseCallback);
-    
+    glfwSetKeyCallback(window, Input::keyCallback);
+
     drawTriangle();
 
     return true;
 }
 
-void Window::displayWindow() {
+void Window::displayWindow(Paint* app) {
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     
     while (!glfwWindowShouldClose(window)) {
@@ -76,11 +81,15 @@ void Window::displayWindow() {
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
-        Input::processInput(window);
+        //Input::processInput(window);
         glfwSwapBuffers(window);
-        glfwPollEvents();
+  
+        DrawTool* tool = app->getTool();
+        if (tool) {
+            std::println("Tool: {}\nx: {}, y: {}", tool->getName(), tool->getXPos(), tool->getYPos());
+        }
 
-        std::println("Tools cords\nx: {}, y: {}", currentTool->getXPos(), currentTool->getYPos());
+        glfwPollEvents();
     }
 }
 

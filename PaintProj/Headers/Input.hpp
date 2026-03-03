@@ -4,6 +4,7 @@
 
 class Input {
 public:
-	static void processInput(GLFWwindow* window);
+	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	//static void processInput(GLFWwindow* window);
 	static void mouseCallback(GLFWwindow* window, double x, double y);
 };

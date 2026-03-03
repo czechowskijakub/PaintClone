@@ -1,18 +1,19 @@
 #pragma once
 #include <glfw3.h>
+#include <string>
 
 class DrawTool {
-private:
-	double xpos = 0.0;
-	double ypos = 0.0;
-	float size;
 public:
-	DrawTool(float size = 5.f);
-	~DrawTool();
-	double getXPos();
-	double getYPos();
+	virtual ~DrawTool() = default;
 
-	void setXPos(double);
-	void setYPos(double);
+	virtual std::string getName() const = 0;
+	virtual float getSize() const = 0;
+	virtual double getXPos() const = 0;
+	virtual double getYPos() const = 0;
 
+	virtual void setSize(float) = 0;
+	virtual void setXPos(double) = 0;
+	virtual void setYPos(double) = 0;
+
+	virtual void draw() = 0;
 };

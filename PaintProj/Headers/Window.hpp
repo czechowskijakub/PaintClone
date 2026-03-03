@@ -1,7 +1,10 @@
 #pragma once
 #include <glfw3.h>
 #include <iostream>
-#include "DrawTool.hpp"
+
+class Paint;
+class DrawTool;
+
 
 class Window {
 private:
@@ -10,11 +13,12 @@ private:
     GLFWwindow* window;
     GLuint VAO, VBO;
     GLuint shaderProgram;
-    DrawTool* currentTool;
 
 public:
     Window(int width, int height, std::string title);
     ~Window();
+
+    GLFWwindow* getWindow() const;
 
     bool checkGLFWInit();
     bool checkGLADInit();
@@ -23,7 +27,7 @@ public:
 
     bool buildWindow();
 
-    void displayWindow();
+    void displayWindow(Paint*);
 
     static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 

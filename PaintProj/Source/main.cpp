@@ -1,12 +1,11 @@
 #include <glfw3.h>
 #include <print>
-#include "Window.hpp"
+#include "Paint.hpp"
 
 int main() {
-    Window window{ 640, 480, "Paint" };
-    if (window.buildWindow()) {
-        window.displayWindow();
-    }
+    Paint paintApp;
+    paintApp.init(640, 480, "Paint");
+    paintApp.getWindow()->displayWindow(&paintApp); 
 
     return 0;
 }
