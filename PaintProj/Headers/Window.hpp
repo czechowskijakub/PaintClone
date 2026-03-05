@@ -20,6 +20,9 @@ public:
 
     GLFWwindow* getWindow() const;
 
+    int getWidth();
+    int getHeight();
+
     bool checkGLFWInit();
     bool checkGLADInit();
 
@@ -30,6 +33,4 @@ public:
     void displayWindow(Paint*);
 
     static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
-
-    void drawTriangle();
 };

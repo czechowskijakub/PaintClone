@@ -40,9 +40,9 @@ GLuint Shader::SCompile(const char* path, GLenum type) {
     return OutShader;
 }
 
-GLuint Shader::createSProgram() {
-    GLuint vert = SCompile("Vertex/vert.glsl", GL_VERTEX_SHADER);
-    GLuint frag = SCompile("Fragment/frag.glsl", GL_FRAGMENT_SHADER);
+GLuint Shader::createSProgram(const char* vertPath, const char* fragPath) {
+    GLuint vert = SCompile(vertPath, GL_VERTEX_SHADER);
+    GLuint frag = SCompile(fragPath, GL_FRAGMENT_SHADER);
 
     GLuint program = glCreateProgram();
     glAttachShader(program, vert);
