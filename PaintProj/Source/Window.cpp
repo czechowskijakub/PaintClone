@@ -1,6 +1,7 @@
 #include <glad.h>
 #include <print>
 #include <vector>
+#include <memory>
 #include "Window.hpp"
 #include "Shader.hpp"
 #include "Paint.hpp"
@@ -86,9 +87,10 @@ void Window::displayWindow(Paint* app) {
 
             DrawTool* tool = app->getTool();
             if (tool) {
+                GLuint shaderToUse = app->drawShaders[tool];
                 std::println("Tool: {}\nx: {}, y: {}", tool->getName(), tool->getXPos(), tool->getYPos());
                 tool->updateCoords(tool->getXPos(), tool->getYPos(), tool->getSize());
-                tool->draw(app->pencilShader);
+                tool->draw(shaderToUse);
             } else {
                 std::println("<<< ERROR: currentTool is NULL >>>");
             }

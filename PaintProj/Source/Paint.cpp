@@ -8,6 +8,9 @@ Paint::Paint(int width, int height) : width(width), height(height), canvas(0, 0)
 }
 
 Paint::~Paint() {
+	glDeleteProgram(screenShader);
+	glDeleteProgram(brushShader);
+	glDeleteProgram(pencilShader);
 	delete window;
 }
 
@@ -38,12 +41,20 @@ void Paint::init(std::string title) {
 	}
 	canvas.setSize(static_cast<int>(width * 0.9f), static_cast<int>(height * 0.9f));
 	this->pencilShader = Shader::createSProgram("Vertex/pencil_vert.glsl", "Fragment/pencil_frag.glsl");
+	this->brushShader = Shader::createSProgram("Vertex/brush_vert.glsl", "Fragment/brush_frag.glsl");
 	this->screenShader = Shader::createSProgram("Vertex/canvas_vert.glsl", "Fragment/canvas_frag.glsl");
 
-	tools.push_back(std::make_unique<Pencil>());
-	tools.push_back(std::make_unique<Brush>());
+	auto pencil = std::make_unique<Pencil>();
+	drawShaders[pencil.get()] = this->pencilShader;
+	tools.push_back(std::move(pencil));
+
+	auto brush = std::make_unique<Brush>();
+	drawShaders[brush.get()] = this->brushShader;
+	tools.push_back(std::move(brush));
+
 	if (!tools.empty()) {
 		currentTool = tools[0].get();
+		drawShader = drawShaders[0];
 	}
 
 	this->canvas.canvasInit();

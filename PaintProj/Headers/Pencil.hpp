@@ -9,7 +9,7 @@ private:
 	float ypos = 0;
 	std::string sName = "Pencil";
 	GLuint VBO, VAO;
-
+	GLuint drawShader = 0;
 public:
 	Pencil();
 

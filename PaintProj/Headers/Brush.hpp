@@ -4,7 +4,7 @@
 
 class Brush : public DrawTool {
 private:
-	float size = 5;
+	float size = .05f;
 	float xpos = 0;
 	float ypos = 0;
 	std::string name = "Brush";
@@ -13,6 +13,8 @@ private:
 public:
 	
 	std::string getName() const;
+
+	Brush();
 
 	float getSize() const override;
 	float getXPos() const override;

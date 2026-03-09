@@ -5,6 +5,7 @@
 #include "Canvas.hpp"
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 class Paint {
 private:
@@ -16,8 +17,11 @@ private:
 	int width = 0, height = 0;
 public:
 	std::vector<std::unique_ptr<DrawTool>> tools;
+	std::unordered_map<DrawTool*, GLuint> drawShaders;
 	Canvas canvas;
+	GLuint drawShader = 0;
 	GLuint pencilShader = 0;
+	GLuint brushShader = 0;
 
 	Paint(int width, int height);
 	~Paint();

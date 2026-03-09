@@ -1,5 +1,6 @@
 #include "Pencil.hpp"
 #include <glad.h>
+#include "Shader.hpp"
 
 Pencil::Pencil() {
 	glGenVertexArrays(1, &VAO);
