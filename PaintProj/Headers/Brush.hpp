@@ -5,21 +5,24 @@
 class Brush : public DrawTool {
 private:
 	float size = 5;
-	double xpos = 0;
-	double ypos = 0;
+	float xpos = 0;
+	float ypos = 0;
 	std::string name = "Brush";
+	GLuint VBO, VAO;
 
 public:
 	
 	std::string getName() const;
 
 	float getSize() const override;
-	double getXPos() const override;
-	double getYPos() const override;
+	float getXPos() const override;
+	float getYPos() const override;
 
 	void setSize(float) override;
-	void setXPos(double) override;
-	void setYPos(double) override;
+	void setXPos(float) override;
+	void setYPos(float) override;
 
-	void draw() override;
+	void updateCoords(float, float, float) override;
+
+	void draw(GLuint) override;
 };

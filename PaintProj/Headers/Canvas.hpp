@@ -5,7 +5,7 @@
 class Canvas {
 	GLuint texture = 0;
 	GLuint FBO = 0, VAO = 0, VBO = 0;
-	int width, height;
+	int width = 0, height = 0;
 
 public:
 	float widthHeightRatio = 0;
@@ -17,6 +17,8 @@ public:
 	void bindForPainting();
 	void unbind();
 	void draw(GLuint shader);
+	int getWidth();
+	int getHeight();
 
 	void setSize(int w, int h);
 

@@ -4,11 +4,17 @@
 void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (action == GLFW_PRESS) {
         if (key >= GLFW_KEY_1 && key <= GLFW_KEY_9) {
+
             int index = key - GLFW_KEY_1;
             Paint* paintApp = static_cast<Paint*>(glfwGetWindowUserPointer(window));
 
+            float coords[2] = { paintApp->getTool()->getXPos(), paintApp->getTool()->getYPos() };
+
             if (paintApp) {
                 paintApp->chooseTool(index);
+                paintApp->getTool()->setXPos(coords[0]);
+                paintApp->getTool()->setYPos(coords[1]);
+
             }
         }
     }
@@ -23,7 +29,21 @@ void Input::mouseCallback(GLFWwindow* window, double x, double y) {
     Paint* app = static_cast<Paint*>(glfwGetWindowUserPointer(window));
 
     if (app && app->getTool()) {
-        app->getTool()->setXPos(x);
-        app->getTool()->setYPos(y);
+        int width, height;
+        glfwGetWindowSize(window, &width, &height);
+        float scale = 0.9f;
+        float ndcX = ((static_cast<float>(x) / width) * 2.0f - 1.0f) / scale;
+        float ndcY = (1.0f - (static_cast<float>(y) / height) * 2.0f) / scale;
+
+        app->getTool()->setXPos(ndcX);
+        app->getTool()->setYPos(ndcY);
     }
+}
+
+bool Input::isLMBPressed(GLFWwindow* window) {
+    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT)) {
+        return true;
+    }
+
+    return false;
 }

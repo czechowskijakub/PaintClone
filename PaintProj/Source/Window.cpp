@@ -80,7 +80,23 @@ void Window::displayWindow(Paint* app) {
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     
     while (!glfwWindowShouldClose(window)) {
-        app->canvas.bindForPainting();
+        if (Input::isLMBPressed(window)) {
+            app->canvas.bindForPainting();
+            glViewport(0, 0, app->canvas.getWidth(), app->canvas.getHeight());
+
+            DrawTool* tool = app->getTool();
+            if (tool) {
+                std::println("Tool: {}\nx: {}, y: {}", tool->getName(), tool->getXPos(), tool->getYPos());
+                tool->updateCoords(tool->getXPos(), tool->getYPos(), tool->getSize());
+                tool->draw(app->pencilShader);
+            } else {
+                std::println("<<< ERROR: currentTool is NULL >>>");
+            }
+            
+            
+            app->canvas.unbind();
+        }
+        
         app->canvas.unbind();
 
         int displayW, displayH;
@@ -91,15 +107,9 @@ void Window::displayWindow(Paint* app) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         app->canvas.draw(app->getShader());
-
+        
         //Input::processInput(window);
         glfwSwapBuffers(window);
-  
-        DrawTool* tool = app->getTool();
-        if (tool) {
-            std::println("Tool: {}\nx: {}, y: {}", tool->getName(), tool->getXPos(), tool->getYPos());
-        }
-
         glfwPollEvents();
     }
 }

@@ -3,12 +3,8 @@
 #include "Brush.hpp"
 #include "Pencil.hpp"
 
-Paint::Paint(int width, int height) : width(width), height(height),canvas(0, 0), window(nullptr), currentTool(nullptr) {
-	tools.push_back(std::make_unique<Brush>());
-	tools.push_back(std::make_unique<Pencil>());
-	if (!tools.empty()) {
-		currentTool = tools[0].get();
-	}
+Paint::Paint(int width, int height) : width(width), height(height), canvas(0, 0), window(nullptr), currentTool(nullptr) {
+
 }
 
 Paint::~Paint() {
@@ -19,8 +15,20 @@ GLuint Paint::getShader() {
 	return screenShader;
 }
 
+GLuint Paint::getPencilShader() const {
+	return pencilShader; 
+}
+
 Window* Paint::getWindow() {
 	return window;
+}
+
+int Paint::getWidth() const {
+	return width;
+}
+
+int Paint::getHeight() const {
+	return height;
 }
 
 void Paint::init(std::string title) {
@@ -28,9 +36,16 @@ void Paint::init(std::string title) {
 	if (this->window->buildWindow()) { 
 		glfwSetWindowUserPointer(window->getWindow(), this); 
 	}
-
 	canvas.setSize(static_cast<int>(width * 0.9f), static_cast<int>(height * 0.9f));
+	this->pencilShader = Shader::createSProgram("Vertex/pencil_vert.glsl", "Fragment/pencil_frag.glsl");
 	this->screenShader = Shader::createSProgram("Vertex/canvas_vert.glsl", "Fragment/canvas_frag.glsl");
+
+	tools.push_back(std::make_unique<Pencil>());
+	tools.push_back(std::make_unique<Brush>());
+	if (!tools.empty()) {
+		currentTool = tools[0].get();
+	}
+
 	this->canvas.canvasInit();
 	this->canvas.buildQuad(scale);
 	glUseProgram(this->screenShader);

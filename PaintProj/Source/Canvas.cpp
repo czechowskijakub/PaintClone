@@ -91,4 +91,11 @@ void Canvas::draw(GLuint shader) {
 	glBindVertexArray(0);
 }
 
+int Canvas::getWidth() {
+	return width;
+}
+int Canvas::getHeight() {
+	return height;
+};
+
 
