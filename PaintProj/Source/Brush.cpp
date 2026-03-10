@@ -2,8 +2,8 @@
 #include "Structures.hpp"
 #include <glad.h>
 
-std::string Brush::getName() const {
-	return name;
+std::string Brush::sGetName() const {
+	return sName;
 }
 Brush::Brush() {
 	glGenVertexArrays(1, &VAO);
@@ -21,28 +21,28 @@ Brush::Brush() {
 	glBindVertexArray(0);
 }
 
-float Brush::getSize() const {
-	return size;
+float Brush::fGetSize() const {
+	return fSize;
 }
 
-float Brush::getXPos() const {
-	return xpos;
+float Brush::fGetXPos() const {
+	return fXPos;
 }
 
-float Brush::getYPos() const {
-	return ypos;
+float Brush::fGetYPos() const {
+	return fYPos;
 }
 
 void Brush::setSize(float newSize) {
-	size = newSize;
+	fSize = newSize;
 }
 
 void Brush::setXPos(float x) {
-	xpos = x;
+	fXPos = x;
 }
 
 void Brush::setYPos(float y) {
-	ypos = y;
+	fYPos = y;
 }
 
 void Brush::updateCoords(float xpos, float ypos, float size) {
@@ -63,8 +63,8 @@ void Brush::updateCoords(float xpos, float ypos, float size) {
 void Brush::draw(GLuint shaderID) {
 	glUseProgram(shaderID);
 	
-	glUniform2f(glGetUniformLocation(shaderID, "mousePos"), xpos, ypos);
-	glUniform1f(glGetUniformLocation(shaderID, "radius"), size / 2.f);
+	glUniform2f(glGetUniformLocation(shaderID, "mousePos"), fXPos, fYPos);
+	glUniform1f(glGetUniformLocation(shaderID, "radius"), fSize / 2.f);
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }

@@ -8,7 +8,7 @@ void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, i
             int index = key - GLFW_KEY_1;
             Paint* paintApp = static_cast<Paint*>(glfwGetWindowUserPointer(window));
 
-            float coords[2] = { paintApp->getTool()->getXPos(), paintApp->getTool()->getYPos() };
+            float coords[2] = { paintApp->getTool()->fGetXPos(), paintApp->getTool()->fGetYPos() };
 
             if (paintApp) {
                 paintApp->chooseTool(index);
@@ -31,9 +31,9 @@ void Input::mouseCallback(GLFWwindow* window, double x, double y) {
     if (app && app->getTool()) {
         int width, height;
         glfwGetWindowSize(window, &width, &height);
-        float scale = 0.9f;
-        float ndcX = ((static_cast<float>(x) / width) * 2.0f - 1.0f) / scale;
-        float ndcY = (1.0f - (static_cast<float>(y) / height) * 2.0f) / scale;
+        float fScale = 0.9f;
+        float ndcX = ((static_cast<float>(x) / width) * 2.0f - 1.0f) / fScale;
+        float ndcY = (1.0f - (static_cast<float>(y) / height) * 2.0f) / fScale;
 
         app->getTool()->setXPos(ndcX);
         app->getTool()->setYPos(ndcY);

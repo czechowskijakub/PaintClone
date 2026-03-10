@@ -4,20 +4,20 @@
 
 class Pencil : public DrawTool {
 private:
-	float size = .02f;
-	float xpos = 0;
-	float ypos = 0;
+	float fSize = .02f;
+	float fXPos = 0;
+	float fYPos = 0;
 	std::string sName = "Pencil";
 	GLuint VBO, VAO;
 	GLuint drawShader = 0;
 public:
 	Pencil();
 
-	std::string getName() const;
+	std::string sGetName() const override;
 
-	float getSize() const override;
-	float getXPos() const override;
-	float getYPos() const override;
+	float fGetSize() const override;
+	float fGetXPos() const override;
+	float fGetYPos() const override;
 
 	void setSize(float) override;
 	void setXPos(float) override;

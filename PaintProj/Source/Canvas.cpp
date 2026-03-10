@@ -2,23 +2,23 @@
 #include "Shader.hpp"
 #include <print>
 
-Canvas::Canvas(int width, int height) : width(width), height(height) {
+Canvas::Canvas(int iWidth, int iHeight) : iWidth(iWidth), iHeight(iHeight) {
 }
-void Canvas::setSize(int w, int h) {
-	width = w;
-	height = h > 0 ? h : 1;
-	widthHeightRatio = static_cast<float>(h) / static_cast<float>(w);
+void Canvas::setSize(int iW, int iH) {
+	iWidth = iW;
+	iHeight = iH > 0 ? iH : 1;
+	fWidthHeightRatio = static_cast<float>(iH) / static_cast<float>(iW);
 }
 
-void Canvas::buildQuad(float scale) {
+void Canvas::buildQuad(float fScale) {
 	float sX, sY;
 
-	if (widthHeightRatio > 1.0f) {
-		sX = scale;
-		sY = scale / widthHeightRatio;
+	if (fWidthHeightRatio > 1.0f) {
+		sX = fScale;
+		sY = fScale / fWidthHeightRatio;
 	} else {
-		sX = scale * widthHeightRatio;
-		sY = scale;
+		sX = fScale * fWidthHeightRatio;
+		sY = fScale;
 	}
 
 	float canvasVertices[] = {
@@ -54,7 +54,7 @@ void Canvas::canvasInit() {
 	glGenTextures(1, &texture);
 
 	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -63,7 +63,7 @@ void Canvas::canvasInit() {
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
 
 	// white first
-	glViewport(0, 0, width, height);
+	glViewport(0, 0, iWidth, iHeight);
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -72,7 +72,7 @@ void Canvas::canvasInit() {
 
 void Canvas::bindForPainting() {
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-	glViewport(0, 0, width, height);
+	glViewport(0, 0, iWidth, iHeight);
 }
 
 void Canvas::unbind() {
@@ -91,11 +91,11 @@ void Canvas::draw(GLuint shader) {
 	glBindVertexArray(0);
 }
 
-int Canvas::getWidth() {
-	return width;
+int Canvas::iGetWidth() const {
+	return iWidth;
 }
-int Canvas::getHeight() {
-	return height;
+int Canvas::iGetHidth() const {
+	return iHeight;
 };
 
 

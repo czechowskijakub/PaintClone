@@ -8,8 +8,8 @@
 #include "Input.hpp"
 #include "Brush.hpp"
 
-Window::Window(int width, int height, std::string title) :
-    width(width), height(height), title(title), window(nullptr), VAO(NULL), VBO(NULL), shaderProgram(NULL) {
+Window::Window(int iWidth, int iHeight, std::string title) :
+    iWidth(iWidth), iHeight(iHeight), sTitle(sTitle), window(nullptr), VAO(NULL), VBO(NULL), shaderProgram(NULL) {
     std::println("Window constructed!");
 }
 
@@ -29,12 +29,12 @@ GLFWwindow* Window::getWindow() const {
     return window;
 }
 
-int Window::getWidth() {
-    return width;
+int Window::iGetWidth() const {
+    return iWidth;
 }
 
-int Window::getHeight() {
-    return height;
+int Window::iGetHeight() const {
+    return iHeight;
 }
 
 bool Window::checkGLFWInit() {
@@ -65,7 +65,7 @@ bool Window::buildWindow() {
     if (!checkGLFWInit()) { return false; }
     setGLFWConfig();
 
-    this->window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+    this->window = glfwCreateWindow(iWidth, iHeight, sTitle.c_str(), nullptr, nullptr);
     if (!window) {
         std::println("<<< FAILED TO CREATE A GLFWwindow >>>");
     }
@@ -83,13 +83,13 @@ void Window::displayWindow(Paint* app) {
     while (!glfwWindowShouldClose(window)) {
         if (Input::isLMBPressed(window)) {
             app->canvas.bindForPainting();
-            glViewport(0, 0, app->canvas.getWidth(), app->canvas.getHeight());
+            glViewport(0, 0, app->canvas.iGetWidth(), app->canvas.iGetHidth());
 
             DrawTool* tool = app->getTool();
             if (tool) {
-                GLuint shaderToUse = app->drawShaders[tool];
-                std::println("Tool: {}\nx: {}, y: {}", tool->getName(), tool->getXPos(), tool->getYPos());
-                tool->updateCoords(tool->getXPos(), tool->getYPos(), tool->getSize());
+                GLuint shaderToUse = app->um_drawShaders[tool];
+                std::println("Tool: {}\nx: {}, y: {}", tool->sGetName(), tool->fGetXPos(), tool->fGetYPos());
+                tool->updateCoords(tool->fGetXPos(), tool->fGetYPos(), tool->fGetSize());
                 tool->draw(shaderToUse);
             } else {
                 std::println("<<< ERROR: currentTool is NULL >>>");
@@ -116,7 +116,7 @@ void Window::displayWindow(Paint* app) {
     }
 }
 
-void Window::framebufferSizeCallback(GLFWwindow* window, int width, int height) {
-    glViewport(0, 0, width, height);
-    std::println("w {}, h {}", width, height);
+void Window::framebufferSizeCallback(GLFWwindow* window, int iWidth, int iHeight) {
+    glViewport(0, 0, iWidth, iHeight);
+    std::println("w {}, h {}", iWidth, iHeight);
 }

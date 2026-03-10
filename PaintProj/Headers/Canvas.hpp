@@ -5,22 +5,22 @@
 class Canvas {
 	GLuint texture = 0;
 	GLuint FBO = 0, VAO = 0, VBO = 0;
-	int width = 0, height = 0;
+	int iWidth = 0, iHeight = 0;
 
 public:
-	float widthHeightRatio = 0;
-	Canvas(int width, int height);
+	float fWidthHeightRatio = 0;
+	Canvas(int iWidth, int iHeight);
 	~Canvas() = default;
 
 	void canvasInit();
-	void buildQuad(float scale);
+	void buildQuad(float fScale);
 	void bindForPainting();
 	void unbind();
 	void draw(GLuint shader);
-	int getWidth();
-	int getHeight();
+	int iGetWidth() const;
+	int iGetHidth() const;
 
-	void setSize(int w, int h);
+	void setSize(int iW, int iH);
 
 	GLuint getTexture() const { return texture; }
 };

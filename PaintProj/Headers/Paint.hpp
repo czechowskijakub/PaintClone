@@ -13,11 +13,11 @@ private:
 	DrawTool* currentTool = nullptr;
 	GLuint screenShader = 0;
 	
-	float scale = 0.9f;
-	int width = 0, height = 0;
+	float fScale = 0.9f;
+	int iWidth = 0, iHeight = 0;
 public:
 	std::vector<std::unique_ptr<DrawTool>> tools;
-	std::unordered_map<DrawTool*, GLuint> drawShaders;
+	std::unordered_map<DrawTool*, GLuint> um_drawShaders;
 	Canvas canvas;
 	GLuint drawShader = 0;
 	GLuint pencilShader = 0;
@@ -30,8 +30,8 @@ public:
 	GLuint getShader();
 	GLuint getPencilShader() const;
 	Window* getWindow();
-	int getWidth() const;
-	int getHeight() const;
+	int iiGetWidth() const;
+	int iiGetHidth() const;
 	DrawTool* getTool() const;
 
 	void setTool(DrawTool*);

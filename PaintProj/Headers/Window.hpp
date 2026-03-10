@@ -8,20 +8,20 @@ class DrawTool;
 
 class Window {
 private:
-    int width, height;
-    std::string title;
+    int iWidth, iHeight;
+    std::string sTitle;
     GLFWwindow* window;
     GLuint VAO, VBO;
     GLuint shaderProgram;
 
 public:
-    Window(int width, int height, std::string title);
+    Window(int iWidth, int iHeight, std::string sTitle);
     ~Window();
 
     GLFWwindow* getWindow() const;
 
-    int getWidth();
-    int getHeight();
+    int iGetWidth() const;
+    int iGetHeight() const;
 
     bool checkGLFWInit();
     bool checkGLADInit();
@@ -32,5 +32,5 @@ public:
 
     void displayWindow(Paint*);
 
-    static void framebufferSizeCallback(GLFWwindow* window, int width, int height);
+    static void framebufferSizeCallback(GLFWwindow* window, int iWidth, int iHeight);
 };

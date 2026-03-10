@@ -18,43 +18,43 @@ Pencil::Pencil() {
 	glBindVertexArray(0);
 }
 
-std::string Pencil::getName() const {
+std::string Pencil::sGetName() const {
 	return sName;
 }
 
-float Pencil::getSize() const {
-	return size;
+float Pencil::fGetSize() const {
+	return fSize;
 }
 
-float Pencil::getXPos() const {
-	return xpos;
+float Pencil::fGetXPos() const {
+	return fXPos;
 }
 
-float Pencil::getYPos() const {
-	return ypos;
+float Pencil::fGetYPos() const {
+	return fYPos;
 }
 
 void Pencil::setSize(float newSize) {
-	size = newSize;
+	fSize = newSize;
 }
 
 void Pencil::setXPos(float x) {
-	xpos = x;
+	fXPos = x;
 }
 
 void Pencil::setYPos(float y) {
-	ypos = y;
+	fYPos = y;
 }
 
-void Pencil::updateCoords(float xpos, float ypos, float size) {
+void Pencil::updateCoords(float fXPos, float fYPos, float size) {
 	float fHalfSize = size / 2.f;
 	float fCoords[] = {
-		xpos - fHalfSize, ypos + fHalfSize,
-		xpos + fHalfSize, ypos + fHalfSize,
-		xpos - fHalfSize, ypos - fHalfSize,
-		xpos + fHalfSize, ypos + fHalfSize,
-		xpos + fHalfSize, ypos - fHalfSize,
-		xpos - fHalfSize, ypos - fHalfSize
+		fXPos - fHalfSize, fYPos + fHalfSize,
+		fXPos + fHalfSize, fYPos + fHalfSize,
+		fXPos - fHalfSize, fYPos - fHalfSize,
+		fXPos + fHalfSize, fYPos + fHalfSize,
+		fXPos + fHalfSize, fYPos - fHalfSize,
+		fXPos - fHalfSize, fYPos - fHalfSize
 	};
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);

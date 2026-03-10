@@ -3,7 +3,7 @@
 #include "Brush.hpp"
 #include "Pencil.hpp"
 
-Paint::Paint(int width, int height) : width(width), height(height), canvas(0, 0), window(nullptr), currentTool(nullptr) {
+Paint::Paint(int iWidth, int iHeight) : iWidth(iWidth), iHeight(iHeight), canvas(0, 0), window(nullptr), currentTool(nullptr) {
 
 }
 
@@ -26,39 +26,39 @@ Window* Paint::getWindow() {
 	return window;
 }
 
-int Paint::getWidth() const {
-	return width;
+int Paint::iiGetWidth() const {
+	return iWidth;
 }
 
-int Paint::getHeight() const {
-	return height;
+int Paint::iiGetHidth() const {
+	return iHeight;
 }
 
 void Paint::init(std::string title) {
-	this->window = new Window(width, height, title);
+	this->window = new Window(iWidth, iHeight, title);
 	if (this->window->buildWindow()) { 
 		glfwSetWindowUserPointer(window->getWindow(), this); 
 	}
-	canvas.setSize(static_cast<int>(width * 0.9f), static_cast<int>(height * 0.9f));
+	canvas.setSize(static_cast<int>(iWidth * 0.9f), static_cast<int>(iHeight * 0.9f));
 	this->pencilShader = Shader::createSProgram("Vertex/pencil_vert.glsl", "Fragment/pencil_frag.glsl");
 	this->brushShader = Shader::createSProgram("Vertex/brush_vert.glsl", "Fragment/brush_frag.glsl");
 	this->screenShader = Shader::createSProgram("Vertex/canvas_vert.glsl", "Fragment/canvas_frag.glsl");
 
 	auto pencil = std::make_unique<Pencil>();
-	drawShaders[pencil.get()] = this->pencilShader;
+	um_drawShaders[pencil.get()] = this->pencilShader;
 	tools.push_back(std::move(pencil));
 
 	auto brush = std::make_unique<Brush>();
-	drawShaders[brush.get()] = this->brushShader;
+	um_drawShaders[brush.get()] = this->brushShader;
 	tools.push_back(std::move(brush));
 
 	if (!tools.empty()) {
 		currentTool = tools[0].get();
-		drawShader = drawShaders[0];
+		drawShader = um_drawShaders[0];
 	}
 
 	this->canvas.canvasInit();
-	this->canvas.buildQuad(scale);
+	this->canvas.buildQuad(fScale);
 	glUseProgram(this->screenShader);
 	glUniform1i(glGetUniformLocation(screenShader, "screenTexture"), 0);
 	glUseProgram(0);
@@ -77,6 +77,6 @@ void Paint::setTool(DrawTool* newTool) {
 void Paint::chooseTool(int index) {
 	if (index >= 0 && index < tools.size()) {
 		currentTool = tools[index].get();
-		std::println("Switched to: {}", currentTool->getName());
+		std::println("Switched to: {}", currentTool->sGetName());
 	}
 }

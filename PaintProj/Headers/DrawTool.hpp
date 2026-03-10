@@ -6,10 +6,10 @@ class DrawTool {
 public:
 	virtual ~DrawTool() = default;
 
-	virtual std::string getName() const = 0;
-	virtual float getSize() const = 0;
-	virtual float getXPos() const = 0;
-	virtual float getYPos() const = 0;
+	virtual std::string sGetName() const = 0;
+	virtual float fGetSize() const = 0;
+	virtual float fGetXPos() const = 0;
+	virtual float fGetYPos() const = 0;
 
 	virtual void setSize(float) = 0;
 	virtual void setXPos(float) = 0;
