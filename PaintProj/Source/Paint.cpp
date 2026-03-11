@@ -26,11 +26,11 @@ Window* Paint::getWindow() {
 	return window;
 }
 
-int Paint::iiGetWidth() const {
+int Paint::iGetWidth() const {
 	return iWidth;
 }
 
-int Paint::iiGetHidth() const {
+int Paint::iGetHidth() const {
 	return iHeight;
 }
 

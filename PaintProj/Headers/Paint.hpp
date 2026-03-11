@@ -30,8 +30,8 @@ public:
 	GLuint getShader();
 	GLuint getPencilShader() const;
 	Window* getWindow();
-	int iiGetWidth() const;
-	int iiGetHidth() const;
+	int iGetWidth() const;
+	int iGetHidth() const;
 	DrawTool* getTool() const;
 
 	void setTool(DrawTool*);
