@@ -9,7 +9,7 @@
 #include "Brush.hpp"
 
 Window::Window(int iWidth, int iHeight, std::string title) :
-    iWidth(iWidth), iHeight(iHeight), sTitle(sTitle), window(nullptr), VAO(NULL), VBO(NULL), shaderProgram(NULL) {
+    iWidth(iWidth), iHeight(iHeight), sTitle(title), window(nullptr), VAO(NULL), VBO(NULL), shaderProgram(NULL) {
     std::println("Window constructed!");
 }
 
@@ -22,7 +22,7 @@ Window::~Window() {
 
     glfwTerminate();
 
-    std::println("Window destructed!");
+    std::println("Window destroyed!");
 }
 
 GLFWwindow* Window::getWindow() const {
@@ -79,7 +79,7 @@ bool Window::buildWindow() {
 
 void Window::displayWindow(Paint* app) {
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
-    
+
     while (!glfwWindowShouldClose(window)) {
         if (Input::isLMBPressed(window)) {
             app->canvas.bindForPainting();
@@ -88,17 +88,30 @@ void Window::displayWindow(Paint* app) {
             DrawTool* tool = app->getTool();
             if (tool) {
                 GLuint shaderToUse = app->um_drawShaders[tool];
+                int fbW, fbH;
+                glfwGetFramebufferSize(window, &fbW, &fbH);
+                if (fbW > 0 && fbH > 0) {
+                    float sX = static_cast<float>(app->canvas.iGetWidth()) / static_cast<float>(fbW);
+                    float sY = static_cast<float>(app->canvas.iGetHidth()) / static_cast<float>(fbH);
+                    glUseProgram(shaderToUse);
+                    GLint loc = glGetUniformLocation(shaderToUse, "canvasScale");
+                    if (loc != -1) {
+                        glUniform2f(loc, sX, sY);
+                    }
+                }
+
                 std::println("Tool: {}\nx: {}, y: {}", tool->sGetName(), tool->fGetXPos(), tool->fGetYPos());
                 tool->updateCoords(tool->fGetXPos(), tool->fGetYPos(), tool->fGetSize());
                 tool->draw(shaderToUse);
-            } else {
+            }
+            else {
                 std::println("<<< ERROR: currentTool is NULL >>>");
             }
-            
-            
+
+
             app->canvas.unbind();
         }
-        
+
         app->canvas.unbind();
 
         int displayW, displayH;
@@ -109,7 +122,7 @@ void Window::displayWindow(Paint* app) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         app->canvas.draw(app->getShader());
-        
+
         //Input::processInput(window);
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -118,5 +131,9 @@ void Window::displayWindow(Paint* app) {
 
 void Window::framebufferSizeCallback(GLFWwindow* window, int iWidth, int iHeight) {
     glViewport(0, 0, iWidth, iHeight);
+	Paint* app = static_cast<Paint*>(glfwGetWindowUserPointer(window));
+    if (app) {
+        app->onResize(iWidth, iHeight);
+	}
     std::println("w {}, h {}", iWidth, iHeight);
 }

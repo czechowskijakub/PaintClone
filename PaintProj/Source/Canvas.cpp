@@ -10,16 +10,12 @@ void Canvas::setSize(int iW, int iH) {
 	fWidthHeightRatio = static_cast<float>(iH) / static_cast<float>(iW);
 }
 
-void Canvas::buildQuad(float fScale) {
-	float sX, sY;
+void Canvas::buildQuad(float fScale, int iFbWidth, int iFbHeight) {
+	if (iFbWidth <= 0) { iFbWidth = 1; }
+	if (iFbHeight <= 0) { iFbHeight = 1; }
 
-	if (fWidthHeightRatio > 1.0f) {
-		sX = fScale;
-		sY = fScale / fWidthHeightRatio;
-	} else {
-		sX = fScale * fWidthHeightRatio;
-		sY = fScale;
-	}
+	float sX = static_cast<float>(iWidth) / static_cast<float>(iFbWidth);
+	float sY = static_cast<float>(iHeight) / static_cast<float>(iFbHeight);
 
 	float canvasVertices[] = {
 		-sX,  sY,   0.0f, 1.0f,
@@ -30,6 +26,9 @@ void Canvas::buildQuad(float fScale) {
 		 sX, -sY,   1.0f, 0.0f,
 		 sX,  sY,   1.0f, 1.0f
 	};
+
+	if (VAO) { glDeleteVertexArrays(1, &VAO); }
+	if (VBO) { glDeleteBuffers(1, &VBO); }
 
 	auto shaderProgram = Shader::createSProgram("Vertex/canvas_vert.glsl", "Fragment/canvas_frag.glsl");
 	glGenVertexArrays(1, &VAO);
@@ -50,6 +49,9 @@ void Canvas::buildQuad(float fScale) {
 }
 
 void Canvas::canvasInit() {
+	if (texture) glDeleteTextures(1, &texture);
+	if (FBO) glDeleteFramebuffers(1, &FBO);
+
 	glGenFramebuffers(1, &FBO);
 	glGenTextures(1, &texture);
 

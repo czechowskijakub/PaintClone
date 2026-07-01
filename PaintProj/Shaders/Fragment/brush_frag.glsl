@@ -5,12 +5,16 @@ out vec4 FragColor;
 uniform vec3 color = vec3(1.0, 0.0, 0.0);
 uniform vec2 mousePos;
 uniform float radius;
+uniform vec2 canvasScale;
 
 void main() {
-	float dist = distance(vPos, mousePos);
-	if (dist > radius) {
-		discard;
-	}
+    vec2 canvasPos   = vPos / canvasScale;
+    vec2 mouseCanvas = mousePos / canvasScale;
 
-	FragColor = vec4(color, 1.0);
+    float dist = distance(canvasPos, mouseCanvas);
+    if (dist > radius) {
+        discard;
+    }
+
+    FragColor = vec4(color, 1.0);
 }

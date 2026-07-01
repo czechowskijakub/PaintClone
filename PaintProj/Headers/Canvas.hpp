@@ -13,7 +13,7 @@ public:
 	~Canvas() = default;
 
 	void canvasInit();
-	void buildQuad(float fScale);
+	void buildQuad(float, int, int);
 	void bindForPainting();
 	void unbind();
 	void draw(GLuint shader);

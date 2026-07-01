@@ -1,8 +1,6 @@
-#pragma once
 #include "DrawTool.hpp"
-#include <vector>
 
-class Pencil : public DrawTool {
+class Spray : DrawTool {
 private:
 	float fSize = .02f;
 	float fXPos = 0;
@@ -11,7 +9,7 @@ private:
 	GLuint VBO, VAO;
 	GLuint drawShader = 0;
 public:
-	Pencil();
+	Spray();
 
 	std::string sGetName() const override;
 

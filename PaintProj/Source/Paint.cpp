@@ -39,7 +39,10 @@ void Paint::init(std::string title) {
 	if (this->window->buildWindow()) { 
 		glfwSetWindowUserPointer(window->getWindow(), this); 
 	}
-	canvas.setSize(static_cast<int>(iWidth * 0.9f), static_cast<int>(iHeight * 0.9f));
+
+	int canvasW = static_cast<int>(iWidth * fScale);
+	int canvasH = static_cast<int>(iHeight * fScale);
+	canvas.setSize(canvasW, canvasH);
 	this->pencilShader = Shader::createSProgram("Vertex/pencil_vert.glsl", "Fragment/pencil_frag.glsl");
 	this->brushShader = Shader::createSProgram("Vertex/brush_vert.glsl", "Fragment/brush_frag.glsl");
 	this->screenShader = Shader::createSProgram("Vertex/canvas_vert.glsl", "Fragment/canvas_frag.glsl");
@@ -58,7 +61,9 @@ void Paint::init(std::string title) {
 	}
 
 	this->canvas.canvasInit();
-	this->canvas.buildQuad(fScale);
+	int fbW, fbH;
+	glfwGetFramebufferSize(window->getWindow(), &fbW, &fbH);
+	this->canvas.buildQuad(fScale, fbW, fbH);
 	glUseProgram(this->screenShader);
 	glUniform1i(glGetUniformLocation(screenShader, "screenTexture"), 0);
 	glUseProgram(0);
@@ -79,4 +84,17 @@ void Paint::chooseTool(int index) {
 		currentTool = tools[index].get();
 		std::println("Switched to: {}", currentTool->sGetName());
 	}
+}
+
+void Paint::onResize(int newWidth, int newHeight) {
+	iWidth = newWidth;
+	iHeight = newHeight;
+
+	int canvasW = static_cast<int>(iWidth * fScale);
+	int canvasH = static_cast<int>(iHeight * fScale);
+
+	canvas.setSize(canvasW, canvasH);
+	canvas.canvasInit();
+	canvas.buildQuad(fScale, iWidth, iHeight);
+	glViewport(0, 0, iWidth, iHeight);
 }

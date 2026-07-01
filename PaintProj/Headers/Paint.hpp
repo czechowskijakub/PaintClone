@@ -35,6 +35,7 @@ public:
 	DrawTool* getTool() const;
 
 	void setTool(DrawTool*);
-
 	void chooseTool(int);
+
+	void onResize(int, int);
 };
